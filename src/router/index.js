@@ -1,49 +1,49 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: () => import('../views/pages/Login.vue')
+    path: "/",
+    name: "home",
+    component: () => import("../views/pages/Login.vue"),
   },
   {
-    path: '/PerSen',
-    name: 'PerSen',
+    path: "/PerSen",
+    name: "PerSen",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('../views/PerSen.vue')
+    component: () => import("../views/PerSen.vue"),
   },
   {
-    path: '/about',
-    name: 'about',
+    path: "/about",
+    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: "/dashboard",
+    name: "Dashboard",
 
-    component: () => import('../views/pages/Dashboard.vue')
+    component: () => import("../views/pages/Dashboard.vue"),
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
 
-    component: () => import('../views/pages/Login.vue')
+    component: () => import("../views/pages/Login.vue"),
   },
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

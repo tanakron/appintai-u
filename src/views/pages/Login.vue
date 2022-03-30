@@ -1,21 +1,60 @@
 <script>
+import axios from "axios";
 import moment from "moment";
+
 export default {
+  created() {
+    axios.get("http://localhost:3000/api/userslogin").then((res) => {
+      this.userslog = res.data;
+    });
+  },
+  computed: {
+    form() {
+      return {
+        id: this.id,
+        logname: this.logname,
+        logemail: this.logemail,
+        number: this.number,
+      };
+    },
+  },
+  // formRegister() {
+  //   return {
+  //     logname: this.logname,
+  //     logemail: this.logemail,
+  //     number: this.number,
+  //   };
+  // },
+
+  methods: {
+    onSubmit() {
+      axios.post("http://localhost:3000/api/userslogin", this.form);
+    },
+  },
+  methods: {
+    onSubmit2() {
+      axios.post("http://localhost:3000/api/login", this.form);
+    },
+  },
+
   data: () => ({
-    abc: "",
+    userslog: [],
+    id: "",
     time: "",
+    logname: "",
+    logemail: "",
+    number: "",
   }),
+
   mounted() {
     setInterval(() => {
       this.time = moment(Date()).format(" MMMM DD YYYY, h:mm:ss a");
     }, 1000);
   },
 };
-
 </script>
 
 <style>
-
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
 body {
@@ -26,7 +65,6 @@ body {
   color: #c4c3ca;
   background-color: #1f2029;
   overflow-x: hidden;
-  
 }
 
 a {
@@ -335,15 +373,14 @@ h6 span {
 </style>
 <template>
   <v-main>
-    
-
     <div class="section">
       <div class="container">
         <div class="row full-height justify-content-center">
           <div class="col-12 text-center align-self-center py-5">
             <div class="section pb-5 pt-5 pt-sm-2 text-center">
               <h6 class="mb-0 pb-3">
-                <span class="text-white">เข้าสู่ระบบ </span><span class="text-white">ลงทะเบียน</span>
+                <span class="text-white">เข้าสู่ระบบ </span
+                ><span class="text-white">ลงทะเบียน</span>
               </h6>
               <input
                 class="checkbox"
@@ -357,65 +394,84 @@ h6 span {
                   <div class="card-front">
                     <div class="center-wrap">
                       <div class="section text-center">
-                        <h4 class="mb-4 pb-3 text-white "  >เข้าสู่ระบบ</h4>
-                        
-                      <v-form action="/dashboard" type="submit">
-                    <v-otp-input
-                      v-model="abc"
-                      type="number"
-                      length="4"
-                      dark
-                    ></v-otp-input>
-                    {{ abc }}
-             <h5 class="mb-4 pb-3 text-white "  > {{ time }}</h5>      
-               <a href="/dashboard" class="btn mt-4">เข้าสู่ระบบ</a>
-                        <p class="mb-0 mt-4 text-center">
-                          <a href="#0" class="link">ลืมไอดีพนักงาน?</a>
-                        </p>
-                  </v-form>
-                      
+                        <h4 class="mb-4 pb-3 text-white">เข้าสู่ระบบ</h4>
+
+                        <v-alert type="success" v-if="userslog">
+                          เข้าสู่ระบบเรียบร้อย
+                        </v-alert>
+                        <form @submit.prevent="onSubmit2()">
+                          <v-otp-input
+                            v-model="abc"
+                            type="number"
+                            length="4"
+                            dark
+                          ></v-otp-input>
+                          {{ id }}
+                          <h5 class="mb-4 pb-3 text-white">{{ time }}</h5>
+                          <v-btn color="red" class="btn mt-4" type="submit"
+                            >เข้าสู่ระบบ</v-btn
+                          >
+
+                          <p class="mb-0 mt-4 text-center">
+                            <a href="#0" class="link">ลืมไอดีพนักงาน?</a>
+                          </p>
+                        </form>
                       </div>
                     </div>
                   </div>
-                
+
                   <div class="card-back">
                     <div class="center-wrap">
                       <div class="section text-center">
-                        <h4 class="mb-4 pb-3 text-white " >ลงทะเบียน</h4>
-                        <div class="form-group">
-                          <input
-                            type="text"
-                            name="logname"
-                            class="form-style"
-                            placeholder="ชื่อพนักงาน"
-                            id="logname"
-                            autocomplete="off"
-                          />
-                          <i class="input-icon uil uil-user"></i>
-                        </div>
-                        <div class="form-group mt-2">
-                          <input
-                            type="email"
-                            name="logemail"
-                            class="form-style"
-                            placeholder="อีเมล"
-                            id="logemail"
-                            autocomplete="off"
-                          />
-                          <i class="input-icon uil uil-at"></i>
-                        </div>
-                        <div class="form-group mt-2">
-                          <input
-                            type="number"
-                            name="number"
-                            class="form-style"
-                            placeholder="รหัสพนักงาน"
-                            id="logpass"
-                            autocomplete="off"
-                          />
-                          <i class="input-icon uil uil-lock-alt"></i>
-                        </div>
-                        <a href="#" class="btn mt-4">ลงทะเบียน</a>
+                        <h4 class="mb-4 pb-3 text-white">ลงทะเบียน</h4>
+
+                        <v-form
+                          action="http://localhost:3000/api/userslogin"
+                          method="post"
+                          submit
+                        >
+                          <div class="form-group">
+                            <input
+                              v-model="logname"
+                              name="logname"
+                              type="text"
+                              class="form-style"
+                              placeholder="ชื่อพนักงาน"
+                              id="logname"
+                              autocomplete="off"
+                            />
+
+                            <i class="input-icon uil uil-user"></i>
+                          </div>
+                          <div class="form-group mt-2">
+                            <input
+                              v-model="logemail"
+                              name="logemail"
+                              type="email"
+                              class="form-style"
+                              placeholder="อีเมล"
+                              id="logemail"
+                              autocomplete="off"
+                            />
+                            <i class="input-icon uil uil-at"></i>
+                          </div>
+                          <div class="form-group mt-2">
+                            <input
+                              v-model="number"
+                              name="number"
+                              type="number"
+                              class="form-style"
+                              placeholder="รหัสพนักงาน"
+                              id="logpass"
+                              autocomplete="off"
+                            />
+
+                            <i class="input-icon uil uil-lock-alt"></i>
+                          </div>
+                          <v-btn color="red" class="btn mt-4" type="submit"
+                            >ลงทะเบียน</v-btn
+                          >
+                        </v-form>
                       </div>
                     </div>
                   </div>

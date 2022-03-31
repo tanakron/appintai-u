@@ -38,6 +38,12 @@ const routes = [
 
     component: () => import("../views/pages/Login.vue"),
   },
+  {
+    path: "/loginnew",
+    name: "Login",
+
+    component: () => import("../views/pages/loginnew.vue"),
+  },
 ];
 
 const router = new VueRouter({

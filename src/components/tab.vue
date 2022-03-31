@@ -1,13 +1,24 @@
 <script>
+// import axios from "axios"
 export default {
   components: {},
+  created() {
+    // axios.get("http://localhost:3000/api/checklogin").then((res) => {
+    //     this.userslog = res.data;
+    //       });
+    setTimeout(() => {
+      this.alert = false;
+    }, 2000);
+  },
+
   data: () => ({
+    userslog: [],
+    alert: true,
     drawer: false,
     group: null,
   }),
 };
 </script>
-
 <style>
 .gap {
   margin-top: 100px;
@@ -312,6 +323,8 @@ h6 {
       </v-list>
     </v-navigation-drawer>
     <v-container>
+      <v-alert shaped dark color="info"> เข้าสู่ระบบ เรียบร้อย </v-alert>
+
       <v-card max-width="1200">
         <div class="padding">
           <div class="row container d-flex justify-content-center">
@@ -320,7 +333,7 @@ h6 {
                 <div class="row m-l-0 m-r-0">
                   <div class="block">
                     <div class="d-flex justify-content-center h-30 gap">
-                      <a class="button btn-extra" data-abc="true">
+                      <a class="button btn-extra" data-abc="true "   href="/test">
                         <v-icon dark right> mdi-format-list-checks</v-icon
                         ><span>แจ้งลางาน<br /><em>แจ้งลางาน</em></span></a
                       >

@@ -12,6 +12,7 @@ export default {
     form() {
       return {
         id: this.id,
+        emp_id: this.emp_id,
         logname: this.logname,
         logemail: this.logemail,
         number: this.number,
@@ -31,16 +32,17 @@ export default {
       axios.post("http://localhost:3000/api/userslogin", this.form);
     },
   },
-  methods: {
-    onSubmit2() {
-      axios.post("http://localhost:3000/api/login", this.form);
-    },
-  },
+  // methods: {
+  //   onSubmit2() {
+  //     axios.post("http://localhost:3000/api/login", this.form);
+  //   },
+  // },
 
   data: () => ({
     userslog: [],
     id: "",
     time: "",
+    emp_id:"",
     logname: "",
     logemail: "",
     number: "",
@@ -396,10 +398,8 @@ h6 span {
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3 text-white">เข้าสู่ระบบ</h4>
 
-                        <v-alert type="success" v-if="userslog">
-                          เข้าสู่ระบบเรียบร้อย
-                        </v-alert>
-                        <form @submit.prevent="onSubmit2()">
+                    
+                        <form @submit.prevent="onSubmit()">
                           <v-otp-input
                             v-model="abc"
                             type="number"

@@ -6,15 +6,15 @@ var db;
 connectDb(() => (db = getDb()));
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res, ) {
   res.send("API");
 });
 
-router.post("/login", async (req, res, next) => {
-  let abc = req.body.abc;
+router.post("/logusers", async (req, res, ) => {
+  let emp_id = req.body.emp_id;
   let curdate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-  await db.collection("loginusers").insertOne({
-    abc: parseInt(abc),
+  await db.collection("logusers").insertOne({
+    emp_id: parseInt(emp_id),
     Curdate: curdate,
   });
   // console.log(abc);
@@ -26,8 +26,8 @@ router.post("/userslogin", async (req, res) => {
   //ดึงข้อมูล่าสุดมา
   const users = await db
     .collection("loginusers")
-    .findOne({}, { sort: { emp_id: -1 }, limit: 1 });
-  const emp_id = users.emp_id + 1;
+    .findOne({}, { sort: { Emp_id: -1 }, limit: 1 });
+  const Emp_id = users.Emp_id + 1;
   // console.log(users.emp_id);
 
   // return 0; จะไม่ทำงานด้านล่าง
@@ -36,14 +36,13 @@ router.post("/userslogin", async (req, res) => {
   let logname = req.body.logname;
   let logemail = req.body.logemail;
   let number = req.body.number;
-
   let curdate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
   await db.collection("loginusers").insertOne({
     Logname: logname,
     Logemail: logemail,
     Number: number,
-    Emp_id: emp_id,
+    Emp_id: Emp_id,
     Curdate: curdate,
   });
   res.redirect("http://localhost:8080/dashboard");
@@ -63,6 +62,16 @@ router.post("/userslogin", async (req, res) => {
 
 // console.log(logname + logemail + number);
 // });
+
+//เช็ค LOGIN
+
+router.get("/checklogin", async (req, res) => {
+  const logusers = await db
+  .collection("loginusers")
+  .findOne({}, { sort: { Emp_id: -1 }, limit: 1 });
+  res.json(logusers);
+  res.end();
+});
 
 router.get("/userslogin", async (req, res) => {
   const users = await db.collection("loginusers").find({}).toArray();
